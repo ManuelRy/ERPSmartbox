@@ -17,8 +17,6 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  buildDir: '.output', // ensure this matches with your publish directory
-  target: 'static', 
   // image: {
   //   dir: 'assets/img'
   // }
