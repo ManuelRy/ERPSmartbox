@@ -77,75 +77,74 @@
     </nav>
   </div>
 </template>
+<script setup>
+import { ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-<script>
-import { debounce } from 'lodash';
+const isMenuOpen = ref(false);
+const dropdownOpen = ref(false);
+const route = useRoute();
+const activeItem = ref(route.path);
 
-export default {
-  data() {
-    return {
-      isMenuOpen: false,
-      activeItem: this.$route.path,
-      dropdownOpen: false,
-    };
-  },
-  watch: {
-    "$route.path": function (newPath) {
-      this.activeItem = newPath;
-    },
-  },
-  methods: {
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
-    },
-    showDropdown() {
-      this.dropdownOpen = true;
-    },
-    hideDropdown() {
-      this.dropdownOpen = false;
-    },
-    setActive(item) {
-      this.activeItem = item;
-    },
-    setActiveAndScroll(item, selector) {
-      this.setActive(item);
-      this.scrollToElement(selector);
-    },
-    handleLinkClick(item, selector) {
-      this.setActiveAndScroll(item, selector);
-      this.isMenuOpen = false;
-    },
-    scrollToElement: debounce(function (selector) {
-      const element = document.querySelector(selector);
-      const navbarHeight = document.querySelector("nav").offsetHeight;
-      if (element) {
-        window.scrollTo({
-          top: element.offsetTop - navbarHeight,
-          behavior: "smooth",
-        });
-      }
-    }, 100),
-    linkClasses(item) {
-      return {
-        "navbar-link-active":
-          this.activeItem === item ||
-          (this.activeItem.startsWith("/services") && item === "/services"),
-        "navbar-link": true,
-      };
-    },
-  },
-  computed: {
-    menuClasses() {
-      return {
-        hidden: !this.isMenuOpen,
-        block: this.isMenuOpen,
-        "transition-all": true,
-        "duration-300": true,
-        "ease-in-out": true,
-      };
-    },
-  },
+watch(() => route.path, (newPath) => {
+  activeItem.value = newPath;
+});
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
 };
+
+const showDropdown = () => {
+  dropdownOpen.value = true;
+};
+
+const hideDropdown = () => {
+  dropdownOpen.value = false;
+};
+
+const setActive = (item) => {
+  activeItem.value = item;
+};
+
+const setActiveAndScroll = (item, selector) => {
+  setActive(item);
+  scrollToElement(selector);
+};
+
+const handleLinkClick = (item, selector) => {
+  setActiveAndScroll(item, selector);
+  isMenuOpen.value = false;
+};
+
+const scrollToElement = (selector) => {
+  const element = document.querySelector(selector);
+  const navbarHeight = document.querySelector("nav").offsetHeight;
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop - navbarHeight,
+      behavior: "smooth",
+    });
+  }
+};
+
+const linkClasses = (item) => {
+  return {
+    "navbar-link-active":
+      activeItem.value === item ||
+      (activeItem.value.startsWith("/services") && item === "/services"),
+    "navbar-link": true,
+  };
+};
+
+const menuClasses = computed(() => {
+  return {
+    hidden: !isMenuOpen.value,
+    block: isMenuOpen.value,
+    "transition-all": true,
+    "duration-300": true,
+    "ease-in-out": true,
+  };
+});
 </script>
 
 <style>

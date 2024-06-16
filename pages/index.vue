@@ -1,5 +1,4 @@
 <script setup>
-
 import { useScroll } from "@vueuse/core";
 import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";
@@ -9,6 +8,8 @@ import Footer from "~/components/Footer.vue";
 onMounted(() => {
   initFlowbite();
 });
+
+
 </script>
 
 <template>
