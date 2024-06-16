@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
-  
+  plugins: ['~/plugins/supabase.js'],
   devtools: { enabled: true },
   colorMode: {
     preference: 'light',
