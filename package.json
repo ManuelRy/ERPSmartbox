@@ -19,6 +19,7 @@
     "bootstrap": "^5.3.3",
     "flowbite": "^2.3.0",
     "font-awesome": "^4.7.0",
+    "lodash": "^4.17.21",
     "nuxt": "^3.11.2",
     "vue-router": "^4.3.0"
   },
