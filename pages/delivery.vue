@@ -1,5 +1,4 @@
 <script setup>
-import debounce from 'lodash/debounce';
 import { useScroll } from "@vueuse/core";
 import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";

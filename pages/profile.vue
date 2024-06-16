@@ -1,5 +1,5 @@
 <script setup>
-import debounce from 'lodash/debounce';
+
 </script>
 <template>
     <Scroll-progress style="z-index: 1051 !important" />
