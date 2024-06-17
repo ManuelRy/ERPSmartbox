@@ -67,9 +67,18 @@
               <nuxt-link exact to="/login" @click.native="setActiveAndScroll('/login', '#')" :class="linkClasses('/login')"
                 class="navbar-link block py-2 px-3 text-lg rounded md:p-0">SIGN IN</nuxt-link>
             </li>
-            <li>
+            <!-- <li>
               <nuxt-link exact to="/profile" @click.native="setActiveAndScroll('/profile', '#')" :class="linkClasses('/profile')"
                 class="navbar-link block py-2 px-3 text-lg rounded md:p-0">PROFILE</nuxt-link>
+            </li> -->
+            <li>
+              <div v-if="user" class="flex">
+                <nuxt-link to="/profile" class="mr-5">PROFILE</nuxt-link>
+                <a class="cursor-pointer" @click="logout">LOGOUT</a>
+              </div>
+            </li>
+            <li>
+
             </li>
           </ul>
         </div>
@@ -86,6 +95,32 @@ const dropdownOpen = ref(false);
 const route = useRoute();
 const activeItem = ref(route.path);
 
+const user = useSupabaseUser();
+const supabase = useSupabaseClient();
+const logout = async () =>
+{
+  //1. make user null
+  //2. remove the JTW from cookies 
+
+  const {error} = await supabase.auth.signOut();
+
+  try {
+    await $fetch('/api/_supabase/session', {
+    method: 'POST',
+    body: {event: "SIGNED_OUT", session: null}
+  })
+    
+  } catch (error) {
+    return console.log(error);
+
+  }
+
+  user.value = null;
+  navigateTo('/');
+  
+  //3. Navigate to homepage
+
+};
 watch(() => route.path, (newPath) => {
   activeItem.value = newPath;
 });
