@@ -100,6 +100,7 @@ export default {
           alert('Failed to send message: ' + result.error);
         }
       } catch (error) {
+        console.error('Error sending message:', error);
         alert('Failed to send message: ' + error.message);
       }
     },
