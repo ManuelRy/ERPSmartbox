@@ -14,12 +14,13 @@
         </div>
       </div>
       <div class="flex flex-wrap items-center justify-center">
-        <form class="w-full sm:w-10/12 md:w-7/12 lg:w-5/12 sm:px-3 lg:px-6">
+        <form @submit.prevent="handleSubmit" class="w-full sm:w-10/12 md:w-7/12 lg:w-5/12 sm:px-3 lg:px-6">
           <div class="mb-4 w-full">
             <label class="block font-medium mb-1 text-black" for="nameInput">
               Name
             </label>
             <input
+              v-model="name"
               type="text"
               class="px-4 py-2 border w-full outline-none rounded-md"
               id="nameInput"
@@ -32,6 +33,7 @@
               Email
             </label>
             <input
+              v-model="email"
               type="email"
               class="px-4 py-2 border w-full outline-none rounded-md"
               id="emailInput"
@@ -44,6 +46,7 @@
               Message
             </label>
             <textarea
+              v-model="message"
               class="px-4 py-2 border rounded-md w-full outline-none resize-none"
               id="messageInput"
               placeholder="Enter your message"
@@ -52,7 +55,7 @@
           </div>
 
           <button
-            type="button"
+            type="submit"
             class="inline-block w-full px-6 py-3 mb-4 rounded bg-orange-400 text-white font-medium uppercase leading-normal hover:shadow-md hover:bg-orange-500"
           >
             Send
@@ -62,3 +65,44 @@
     </div>
   </section>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      name: '',
+      email: '',
+      message: '',
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: this.name,
+          email: this.email,
+          message: this.message,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert('Message sent successfully!');
+        this.name = '';
+        this.email = '';
+        this.message = '';
+      } else {
+        alert('Failed to send message');
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Your styles here */
+</style>

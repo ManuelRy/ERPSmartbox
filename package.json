@@ -15,7 +15,7 @@
     "@nuxt/image": "^1.6.0",
     "@nuxt/ui": "^2.15.2",
     "@nuxtjs/supabase": "^0.3.0",
-    "@prisma/client": "^5.15.0",
+    "@prisma/client": "^5.15.1",
     "@supabase/supabase-js": "^2.43.5",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.3",
