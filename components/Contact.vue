@@ -77,26 +77,30 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: this.name,
-          email: this.email,
-          message: this.message,
-        }),
-      });
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: this.name,
+            email: this.email,
+            message: this.message,
+          }),
+        });
 
-      const result = await response.json();
-      if (result.success) {
-        alert('Message sent successfully!');
-        this.name = '';
-        this.email = '';
-        this.message = '';
-      } else {
-        alert('Failed to send message');
+        const result = await response.json();
+        if (result.success) {
+          alert('Message sent successfully!');
+          this.name = '';
+          this.email = '';
+          this.message = '';
+        } else {
+          alert('Failed to send message: ' + result.error);
+        }
+      } catch (error) {
+        alert('Failed to send message: ' + error.message);
       }
     },
   },
