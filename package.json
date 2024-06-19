@@ -23,7 +23,7 @@
     "flowbite": "^2.3.0",
     "font-awesome": "^4.7.0",
     "nuxt": "^3.11.2",
-    "prisma": "^5.15.0",
+    "prisma": "^5.15.1",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
