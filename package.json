@@ -22,6 +22,7 @@
     "dotenv": "^16.4.5",
     "flowbite": "^2.3.0",
     "font-awesome": "^4.7.0",
+    "joi": "^17.13.3",
     "nuxt": "^3.11.2",
     "prisma": "^5.15.1",
     "vue-router": "^4.3.0"
