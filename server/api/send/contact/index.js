@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../prisma';
 
 export default defineEventHandler(async (event) => {
   try {
@@ -32,7 +30,6 @@ export default defineEventHandler(async (event) => {
     // Return a success response
     return { success: true, data: contact };
   } catch (error) {
-    console.error('Error in event handler:', error); // Enhanced logging
     // Handle errors and return an appropriate response
     return { success: false, error: error.message };
   }
