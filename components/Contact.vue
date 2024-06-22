@@ -63,7 +63,6 @@
         </form>
       </div>
     </div>
-    <pre>{{ message }}</pre>
   </section>
 </template>
 
