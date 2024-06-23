@@ -1,10 +1,16 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
+});
 
-export default defineEventHandler(async (event) => {
+exports.handler = async (event) => {
   try {
     // Read the request body
-    const body = await readBody(event);
+    const body = JSON.parse(event.body);
 
     // Ensure the body is not undefined
     if (!body) {
@@ -29,9 +35,16 @@ export default defineEventHandler(async (event) => {
     });
 
     // Return a success response
-    return { success: true, data: contact };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ success: true, data: contact }),
+    };
   } catch (error) {
+    console.error('Error occurred:', error);
     // Handle errors and return an appropriate response
-    return { success: false, error: error.message };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ success: false, error: error.message }),
+    };
   }
-});
+};
