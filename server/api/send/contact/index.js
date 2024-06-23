@@ -1,31 +1,20 @@
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-});
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
-exports.handler = async (event) => {
+export default defineEventHandler(async (event) => {
   try {
-    // Read the request body
-    const body = JSON.parse(event.body);
-
-    // Ensure the body is not undefined
+    const body = await readBody(event);
+    
     if (!body) {
       throw new Error('Request body is missing');
     }
 
-    // Destructure the body safely
     const { name, email, message } = body;
 
-    // Validate the request payload
     if (!name || !email || !message) {
       throw new Error('Missing fields in request body');
     }
 
-    // Handle the request logic here
     const contact = await prisma.contact.create({
       data: {
         name,
@@ -34,17 +23,9 @@ exports.handler = async (event) => {
       },
     });
 
-    // Return a success response
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true, data: contact }),
-    };
+    return { success: true, data: contact };
   } catch (error) {
-    console.error('Error occurred:', error);
-    // Handle errors and return an appropriate response
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ success: false, error: error.message }),
-    };
+    console.error('Error creating contact:', error); // Log the error for debugging
+    return { success: false, error: error.message };
   }
-};
+});
