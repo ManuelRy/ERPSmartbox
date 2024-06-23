@@ -1,4 +1,6 @@
-import { prisma } from '../prisma';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
+
 export default defineEventHandler(async (event) => {
   try {
     // Read the request body
@@ -18,28 +20,18 @@ export default defineEventHandler(async (event) => {
     }
 
     // Handle the request logic here
-    // ...
-
-    // Return a success response
-    return { success: true, data: { name, email, message } };
-  } catch (error) {
-
-    const {
+    const contact = await prisma.contact.create({
+      data: {
         name,
         message,
-        email
-    } = body
-    const contact = await prisma.contact.create(
-        {
-            data: 
-            {
-                name,
-                message,
-                email
-            }
-        }
-    )
+        email,
+      },
+    });
+
+    // Return a success response
+    return { success: true, data: contact };
+  } catch (error) {
     // Handle errors and return an appropriate response
-    return contact;
+    return { success: false, error: error.message };
   }
 });
